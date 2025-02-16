@@ -4,7 +4,6 @@ pipeline {
     stages {
         stage('checkout') {
             steps {
-                sh "rm -rf clinic-1"
                 sh "git clone https://github.com/sarath8008/clinic-1.git"
             }
         }
