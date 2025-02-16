@@ -1,37 +1,29 @@
 pipeline {
-    agent any
-
+  agent { label 'slave1' }	
     stages {
-        stage('Setup EC2 Environment') {
+        stage('Checkout') {             
             steps {
-                sh "export JAVA_HOME=\$(dirname \$(dirname \$(readlink -f \$(which java))))"
-                sh "export MAVEN_HOME=/usr/share/maven"
+                sh "rm -rf rcbclinic"
+                sh "git clone  https://github.com/sarath8008/clinic-1.git"
+				 sh "cd clinic-1"
+            }
+        }
+		    stage('Set up Environment') {
+        steps {
+            sh 'export export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))'            
+	    sh 'export MAVEN_HOME=/usr/share/maven'           
+        }
+    }
+           stage('build') {             
+            steps {               
+                sh "mvn clean package"
+                  }
+        }
+	         stage('Run Application') {
+            steps {
+                echo 'Running Spring Boot application...'
+                sh 'nohup mvn spring-boot:run &'
+                sleep(time: 15, unit: 'SECONDS') 
                
-              
-            }
-        }
-
-        stage('Checkout Code') {
-            steps {
-                echo 'Cloning the repository...'
-                sh "rm -rf clinic-1"
-                sh "git clone https://github.com/sarath8008/clinic-1.git"
-                sh "cd clinic-1"
-            }
-        }
-
-        stage('Build Application') {
-            steps {
-                echo 'Building the application using Maven...'
-                sh "cd clinic-1 && mvn clean install"
-            }
-        }
-
-        stage('Run Application') {
-            steps {
-                echo 'Running the Spring Boot application...'
-                sh "cd clinic-1 && mvn spring-boot:run"
-            }
-        }
     }
 }
