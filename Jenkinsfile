@@ -16,6 +16,7 @@ pipeline {
                 echo 'Cloning the repository...'
                 sh "rm -rf clinic-1"
                 sh "git clone https://github.com/sarath8008/clinic-1.git"
+                sh "cd clinic-1"
             }
         }
 
