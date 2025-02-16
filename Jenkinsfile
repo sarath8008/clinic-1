@@ -1,28 +1,26 @@
 pipeline {
-    agent { label 'slave1' }
+    agent any
+
+    options {
+        skipDefaultCheckout() // Skip the default checkout to control repository fetching
+    }
 
     stages {
-        stage('checkout') {
+        stage('Checkout') {
             steps {
-                sh "git clone https://github.com/sarath8008/clinic-1.git"
+                echo 'Checking out repository...'
+                checkout scm
             }
         }
 
-        stage('build') {
+        stage('Set up Environment') {
             steps {
-                sh """
-                    cd clinic-1
-                    mvn clean package
-                """
+                echo 'Setting up Java environment...'
+                sh '''
+                    export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
+                    echo "JAVA_HOME=$JAVA_HOME"
+                '''
             }
         }
-
-        stage('deploy') {
-            steps {
-                sh """
-                    scp clinic-1/target/*.war root@172.31.16.119:/opt/apache-tomcat-11.0.3/webapps/
-                """
-            }
-        }
-    }
-}
+    } 
+} 
