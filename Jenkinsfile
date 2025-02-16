@@ -1,26 +1,15 @@
 pipeline {
     agent any
-
-    options {
-        skipDefaultCheckout() // Skip the default checkout to control repository fetching
-    }
-
     stages {
         stage('Checkout') {
             steps {
-                echo 'Checking out repository...'
-                checkout scm
+                sh "git clone https://github.com/sarath8008/clinic-1.git"
             }
         }
-
-        stage('Set up Environment') {
+        stage('Build') {
             steps {
-                echo 'Setting up Java environment...'
-                sh '''
-                    export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
-                    echo "JAVA_HOME=$JAVA_HOME"
-                '''
+                sh "cd clinic-1 && mvn clean package"
             }
         }
-    } 
-} 
+    }
+}
