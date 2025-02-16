@@ -6,7 +6,7 @@ pipeline {
             steps {
                 sh "export JAVA_HOME=\$(dirname \$(dirname \$(readlink -f \$(which java))))"
                 sh "export MAVEN_HOME=/usr/share/maven"
-                sh "source /etc/environment"
+                sh ". /etc/environment"
                 sh "echo 'JAVA_HOME='\"\$JAVA_HOME\""
                 sh "echo 'MAVEN_HOME='\"\$MAVEN_HOME\""
               
