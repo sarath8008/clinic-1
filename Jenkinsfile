@@ -4,12 +4,6 @@ pipeline {
     stages {
         stage('Setup EC2 Environment') {
             steps {
-                echo 'Installing Java 17 and Maven on EC2...'
-                sh "sudo apt update"
-                sh "sudo apt install -y openjdk-17-jdk"
-                sh "java -version"
-                sh "sudo apt install -y maven"
-                sh "mvn -version"
                 sh "export JAVA_HOME=\$(dirname \$(dirname \$(readlink -f \$(which java))))"
                 sh "echo 'JAVA_HOME='\"\$JAVA_HOME\" | sudo tee -a /etc/environment"
                 sh "export MAVEN_HOME=/usr/share/maven"
