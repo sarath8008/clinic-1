@@ -5,13 +5,11 @@ pipeline {
         stage('Setup EC2 Environment') {
             steps {
                 sh "export JAVA_HOME=\$(dirname \$(dirname \$(readlink -f \$(which java))))"
-                sh "echo 'JAVA_HOME='\"\$JAVA_HOME\" | sudo tee -a /etc/environment"
                 sh "export MAVEN_HOME=/usr/share/maven"
-                sh "echo 'MAVEN_HOME='\"\$MAVEN_HOME\" | sudo tee -a /etc/environment"
                 sh "source /etc/environment"
                 sh "echo 'JAVA_HOME='\"\$JAVA_HOME\""
                 sh "echo 'MAVEN_HOME='\"\$MAVEN_HOME\""
-                sh "sudo apt autoremove -y"
+              
             }
         }
 
