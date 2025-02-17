@@ -16,14 +16,14 @@ pipeline {
     }
            stage('build') {             
             steps {               
-                sh "mvn clean package"
+                sh "mvn clean install"
                   }
         }
 	         stage('Run Application') {
             steps {
                 echo 'Running Spring Boot application...'
-                sh 'nohup mvn spring-boot:run &'
-                sleep(time: 15, unit: 'SECONDS') 
+                sh 'mvn spring-boot:run '
+                 
 	    }    
 	}       
     }
